@@ -1,0 +1,9 @@
+{
+  "extends": "airbnb",
+  "ecmaFeatures": {
+    
+  },
+  "globals": {
+
+  }
+}
