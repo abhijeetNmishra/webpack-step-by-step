@@ -68,7 +68,7 @@ npm install eslint-config-airbnb eslint eslint-plugin-react --save-dev
 
 Add following code in .eslintrc :
 
-```
+```javascript
 
 {
   "extends": "airbnb",
@@ -90,7 +90,7 @@ npm install eslint-loader --save-dev
 
 6.) style loaders - We will be using couple of loader/plugin to support css module system. you can import your styles using code like :
 
-```
+```javascript
 require('./styles/style.scss');
 ```
 
@@ -107,7 +107,7 @@ npm install css-loader sass-loader node-sass style-loader autoprefixer-loader --
 
 Add presets to add required babel plugins to transpile our code :
 
-```
+```javascript
 
 {
   "presets": ["react", "es2015","stage-0"]
@@ -142,7 +142,7 @@ Add file 'server.js' at root directory. we will also be adding a babel file rela
 
 Add server.babel.js at root directory and add below code ( which i believe is self-explanatory):
 
-```
+```javascript
 
 //  enable runtime transpilation to use ES6/7 in node
 
@@ -165,7 +165,7 @@ lets add code to our server.js file :
 
 ==> require modules
 
-```
+```javascript
 
 require('./server.babel');
 var path = require('path');
@@ -176,14 +176,14 @@ var webpack = require('webpack');
 
 ===> add a check if its development or production environment as a global constant
 
-```
+```javascript
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
 ```
 
 ===> Load webpack config file based on environment. We will be adding webpack config files in next step
 
-```
+```javascript
 
 if (__DEVELOPMENT__) {
   var config = require('./webpack.config');
@@ -194,7 +194,7 @@ if (__DEVELOPMENT__) {
 
 ===> Create Express server instance and configure with webpack
 
-```
+```javascript
 
 var app = express();
 var compiler = webpack(config);
@@ -202,7 +202,7 @@ var compiler = webpack(config);
 
 ===> Hook our Express server with 'webpack-hot-middleware' and 'webpack-hot-middleware' only for development
 
-```
+```javascript
 
 if (__DEVELOPMENT__) {
   app.use(require('webpack-dev-middleware')(compiler, {
@@ -216,7 +216,7 @@ if (__DEVELOPMENT__) {
 
 ===> Move this code to upper 'if' block
 
-```
+```javascript
 
 if (__DEVELOPMENT__) {
   var config = require('./webpack.config');
@@ -235,7 +235,7 @@ if (__DEVELOPMENT__) {
 
 ===> add index.html file at root directory and enter below
 
-```
+```javascript
 <!DOCTYPE html>
 <html>
 
@@ -255,7 +255,7 @@ if (__DEVELOPMENT__) {
 
 ===> Create http server and listen on port 9000
 
-```
+```javascript
 
 const server = new http.Server(app);
 
@@ -296,7 +296,7 @@ complete code for server.js is *[here](https://github.com/abhijeetNmishra/webpac
 
 ===> add *'src'* folder to root directory with below structure
 
-```
+```javascript
 
 |-- src
       |-- js
@@ -316,7 +316,7 @@ npm install extract-text-webpack-plugin --save-dev
 
 11.) add code in *'webpack.config.js'*
 
-```
+```javascript
 require('babel-polyfill');
 var fs = require('fs');
 var webpack = require('webpack');
@@ -337,7 +337,7 @@ In the above code config is the section where we will add all webpack related co
 
  * *devtools* ->  'cheap-module-eval-source-map'. This option will only be needed in development environment which will help in debugging. Using this option will result in large bundle size. Make sure remove this prod config file.
 
-```
+```javascript
  var config = {
    devtool: 'cheap-module-eval-source-map',
  }
@@ -347,7 +347,7 @@ You can read about all possible options **[here](https://webpack.github.io/docs/
 
  * *entry* : read **[here](https://webpack.github.io/docs/configuration.html#entry)** This one is most important part of webpack config.
 
-```
+```javascript
 
  var config = {
    devtool: 'cheap-module-eval-source-map',
@@ -365,7 +365,7 @@ You can read about all possible options **[here](https://webpack.github.io/docs/
 
   * *output* : read **[here](https://webpack.github.io/docs/configuration.html#output)** we will creating a single output bundle for this tutorial named 'main.js'
 
-```
+```javascript
 var config = {
   devtool: 'cheap-module-eval-source-map',
   entry: {
@@ -389,7 +389,7 @@ var config = {
 
  we will be preloader option to perform eslint before bundling our output. I can't think of any postLoaders scenario for my example yet.
 
-```
+```javascript
  var config = {
    devtool: 'cheap-module-eval-source-map',
    entry: {
@@ -444,7 +444,7 @@ var config = {
 
   * *[ProgressPlugin](https://webpack.github.io/docs/list-of-plugins.html#progressplugin)*: Hook into the compiler to extract progress information. The handler must have the signature function(percentage, message). It's called with 0 <= percentage <= 1. percentage == 0 indicates the start. percentage == 1 indicates the end.
 
-```
+```javascript
 
 var config = {   
   .........
@@ -469,7 +469,7 @@ var config = {
 
  * In the end, we will adding 'resolve' option to tell webpack what are file extensions it need to support. This allows you to create React components with file extension '.jsx'
 
-```
+```javascript
 
  var config = {
    .........
@@ -560,7 +560,7 @@ npm install react react-dom --save
 
 13.) Add code to *'./src/js/main.js'* to demonstrate example :
 
-```
+```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MyComponent from './MyComponent';
@@ -575,7 +575,7 @@ ReactDOM.render(
 
 14.) Add code to *'./src/js/MyComponent.jsx'* to demonstrate react example:
 
-```
+```javascript
 
 import React, { Component } from 'react';
 
@@ -594,7 +594,7 @@ export default class MyComponent extends Component {
 
 15.) Add code to *'./src/styles/main.scss'* file ( just for our example )
 
-```
+```css
 .title {
   white-space: nowrap;
   overflow: hidden;
@@ -613,7 +613,7 @@ export default class MyComponent extends Component {
 
 16.) open *package.json* file and following script tag :
 
-```
+```javascript
 
 "scripts": {
   "start": "node server.js"
