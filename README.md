@@ -15,14 +15,14 @@ All webpack modules will be installed as dev dependencies as those are not requi
 
 open terminal and run below commands :
 
-1. **[webpack](https://www.npmjs.com/package/webpack)**
+1.) [webpack](https://www.npmjs.com/package/webpack)
 
 ```bash
 
  npm install webpack --save-dev
 ```
 
-2. **[webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware)** It's a simple wrapper middleware for webpack. It serves the files emitted from webpack over a connect server. It has a few advantages over bundling it as files:
+2.) [webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware) It's a simple wrapper middleware for webpack. It serves the files emitted from webpack over a connect server. It has a few advantages over bundling it as files:
 
 No files are written to disk, it handle the files in memory If files changed in watch mode, the middleware no longer serves the old bundle, but delays requests until the compiling has finished. You don't have to wait before refreshing the page after a file modification.
 
@@ -30,7 +30,7 @@ No files are written to disk, it handle the files in memory If files changed in 
 npm install webpack-dev-middleware --save-dev
 ```
 
-3. **[webpack-hot-middleware](https://www.npmjs.com/package/webpack-hot-middleware)** Webpack hot reloading using only webpack-dev-middleware. This allows you to add hot reloading into an existing server without webpack-dev-server.
+3.) [webpack-hot-middleware](https://www.npmjs.com/package/webpack-hot-middleware) Webpack hot reloading using only webpack-dev-middleware. This allows you to add hot reloading into an existing server without webpack-dev-server.
 
 ```bash
 
@@ -42,7 +42,7 @@ Now we will be installing bunch of loaders to support multiple loading tasks.
 
 brief explanation : Loaders allow you to preprocess files as you require() or "load" them. Loaders are kind of like "tasks" are in other build tools, and provide a powerful way to handle frontend build steps. Loaders can transform files from a different language like, CoffeeScript to JavaScript, or inline images as data URLs. Loaders even allow you to do things like require() css files right in your JavaScript!
 
-4. **[babel-loader](https://www.npmjs.com/package/babel-loader)** This package allows transpiling JavaScript files using Babel and webpack.
+4.) [babel-loader](https://www.npmjs.com/package/babel-loader) This package allows transpiling JavaScript files using Babel and webpack.
 
 Here i am assuming, you will be writing your code using ES6 and have some idea on [babel](https://babeljs.io/) which is a compiler for writing next generation JavaScript. We will be doing our setup using babel6, which is its latest version and differs alot from its older versions.
 
@@ -55,7 +55,7 @@ Since babel-loader depends number of modules from babel, we will be installing a
 npm install babel-loader babel-core babel-preset-es2015 babel-preset-react babel-preset-stage-0 --save-dev
 ```
 
-5. **[eslint-loader](https://www.npmjs.com/package/eslint-loader)** - This loader will help us to throw linting errors before bundling up your module.
+5.) [eslint-loader](https://www.npmjs.com/package/eslint-loader) - This loader will help us to throw linting errors before bundling up your module.
 
 Lets add *[eslint](http://eslint.org/)* configuration first to our project. At root directory add filename *'.eslintrc'* I will be extending *[airbnb](https://github.com/airbnb)* eslint configuration for this one, but it can be replaced with any customized config values:
 
@@ -88,7 +88,7 @@ Note: Your might need to add some global variables or extra features like *'expe
 npm install eslint-loader --save-dev
 ```
 
-6. style loaders - We will be using couple of loader/plugin to support css module system. you can import your styles using code like :
+6.) style loaders - We will be using couple of loader/plugin to support css module system. you can import your styles using code like :
 
 ```
 require('./styles/style.scss');
@@ -103,7 +103,7 @@ We will be installing *[autoprefixer-loader](https://www.npmjs.com/package/autop
 npm install css-loader sass-loader node-sass style-loader autoprefixer-loader --save-dev
 ```
 
-7. Add babel configuration - Add .babelrc file at root level
+7.) Add babel configuration - Add .babelrc file at root level
 
 Add presets to add required babel plugins to transpile our code :
 
@@ -114,7 +114,7 @@ Add presets to add required babel plugins to transpile our code :
 }
 ```
 
-8. **Babel Runtime support**
+8.) *Babel Runtime support*
 
 Babel can't support all of ES6 with compilation alone -- it also requires some runtime support. In particular, the new ES6 built-ins like Set, Map and Promise must be polyfilled, and Babel's generator implementation also uses a number of runtime helpers. Given your app doesn't have to share a JavaScript environment with other apps, you'll be ok to use babel-polyfill to handle this:
 
@@ -129,7 +129,7 @@ npm install babel-runtime --save
 npm install babel-plugin-transform-runtime --save-dev
 ```
 
-9. **[express](http://expressjs.com/)** - Lets setup a express server at port *9000*.
+9.) **[express](http://expressjs.com/)** - Lets setup a express server at port *9000*.
 
 Note: Below mentioned steps are not required for webpack setup but gives some idea about a clean project setup.
 
@@ -307,14 +307,14 @@ complete code for server.js is *[here](https://github.com/abhijeetNmishra/webpac
 |-- public
 ```
 
-10. **[extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin)** - It moves every require("style.css") in entry chunks into a separate css output file. So your styles are no longer inlined into the javascript, but separate in a css bundle file (styles.css). If your total stylesheet volume is big, it will be faster because the stylesheet bundle is loaded in parallel to the javascript bundle.
+10.) [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin) - It moves every require("style.css") in entry chunks into a separate css output file. So your styles are no longer inlined into the javascript, but separate in a css bundle file (styles.css). If your total stylesheet volume is big, it will be faster because the stylesheet bundle is loaded in parallel to the javascript bundle.
 
 ```bash
 
 npm install extract-text-webpack-plugin --save-dev
 ```
 
-11. add code in *'webpack.config.js'*
+11.) add code in *'webpack.config.js'*
 
 ```
 require('babel-polyfill');
@@ -483,7 +483,7 @@ var config = {
 
  complete code for webpack.config.js will look like :
 
-```
+```javascript
 require('babel-polyfill');
 var fs = require('fs');
 var webpack = require('webpack');
@@ -551,14 +551,14 @@ var config = {
 module.exports = config;
 ```
 
-12. *React* and *ReactDOM* - As we will be using React to demonstrate this example. Install React and ReactDOM
+12.) *React* and *ReactDOM* - As we will be using React to demonstrate this example. Install React and ReactDOM
 
 ```bash
 
 npm install react react-dom --save
 ```
 
-13. Add code to *'./src/js/main.js'* to demonstrate example :
+13.) Add code to *'./src/js/main.js'* to demonstrate example :
 
 ```
 import React from 'react';
@@ -573,7 +573,7 @@ ReactDOM.render(
 );
 ```
 
-14. Add code to *'./src/js/MyComponent.jsx'* to demonstrate react example:
+14.) Add code to *'./src/js/MyComponent.jsx'* to demonstrate react example:
 
 ```
 
@@ -592,7 +592,7 @@ export default class MyComponent extends Component {
 }
 ```
 
-15. Add code to *'./src/styles/main.scss'* file ( just for our example )
+15.) Add code to *'./src/styles/main.scss'* file ( just for our example )
 
 ```
 .title {
@@ -611,7 +611,7 @@ export default class MyComponent extends Component {
 }
 ```
 
-16. open *package.json* file and following script tag :
+16.) open *package.json* file and following script tag :
 
 ```
 
