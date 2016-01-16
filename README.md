@@ -114,9 +114,9 @@ Add presets to add required babel plugins to transpile our code :
 
 7.1) Babel Runtime support
 
-Babel can’t support all of ES6 with compilation alone — it also requires some runtime support. In particular, the new ES6 built-ins like Set, Map and Promise must be polyfilled, and Babel’s generator implementation also uses a number of runtime helpers. Given your app doesn’t have to share a JavaScript environment with other apps, you’ll be ok to use babel-polyfill to handle this:
+Babel can't support all of ES6 with compilation alone -- it also requires some runtime support. In particular, the new ES6 built-ins like Set, Map and Promise must be polyfilled, and Babel's generator implementation also uses a number of runtime helpers. Given your app doesn't have to share a JavaScript environment with other apps, you'll be ok to use babel-polyfill to handle this:
 
-``` bash
+```bash
 npm install babel-polyfill --save
 ```
 
@@ -288,6 +288,8 @@ server.listen('9000', (err) => {
 });
 ```
 
+complete code for server.js is [here](https://github.com/abhijeetNmishra/webpack-step-by-step/blob/master/server.js)
+
 ===> add 'webpack.config.js' and 'webpack.prod.config.js' at root directory
 
 ===> add "src" folder to root directory with below structure
@@ -435,9 +437,9 @@ var config = {
 
   ** [HotModuleReplacementPlugin](https://webpack.github.io/docs/list-of-plugins.html#hotmodulereplacementplugin) : Only use in development mode. Enables Hot Module Replacement. (This requires records data if not in dev-server mode, recordsPath) Generates Hot Update Chunks of each chunk in the records
 
-  ** [NoErrorsPlugin](https://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin): When there are errors while compiling this plugin skips the emitting phase (and recording phase), so there are no assets emitted that include errors. The emitted flag in the stats is false for all assets. If you are using the CLI, the webpack process will not exit with an error code by enabling this plugin. If you want webpack to “fail” when using the CLI, please check out the bail option.
+  ** [NoErrorsPlugin](https://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin): When there are errors while compiling this plugin skips the emitting phase (and recording phase), so there are no assets emitted that include errors. The emitted flag in the stats is false for all assets. If you are using the CLI, the webpack process will not exit with an error code by enabling this plugin. If you want webpack to "fail" when using the CLI, please check out the bail option.
 
-  ** [ProgressPlugin](https://webpack.github.io/docs/list-of-plugins.html#progressplugin): Hook into the compiler to extract progress information. The handler must have the signature function(percentage, message). It’s called with 0 <= percentage <= 1. percentage == 0 indicates the start. percentage == 1 indicates the end.
+  ** [ProgressPlugin](https://webpack.github.io/docs/list-of-plugins.html#progressplugin): Hook into the compiler to extract progress information. The handler must have the signature function(percentage, message). It's called with 0 <= percentage <= 1. percentage == 0 indicates the start. percentage == 1 indicates the end.
 
 ```
 
@@ -464,7 +466,7 @@ var config = {
 
  f.) In the end, we will adding 'resolve' option to tell webpack what are file extensions it need to support. This allows you to create React components with file extension '.jsx'
 
- ```
+```
 
  var config = {
    .........
@@ -474,7 +476,7 @@ var config = {
     extensions: ["", ".js", ".jsx"],
   }
  }
- ```
+```
 
  complete code for webpack.config.js will look like :
 
@@ -544,7 +546,6 @@ var config = {
 }
 
 module.exports = config;
-
 ```
 
 11.) React and ReactDOM - As we will be using React to demonstrate this example. Install React and ReactDOM
@@ -553,3 +554,79 @@ module.exports = config;
 
 npm install react react-dom --save
 ```
+
+12.) Add code to './src/js/main.js' to demonstrate example :
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+import MyComponent from './MyComponent';
+
+// load the stylesheet
+require('../styles/main.scss');
+
+ReactDOM.render(
+  <MyComponent />, document.getElementById('main')
+);
+```
+
+13.) Add code to './src/js/MyComponent.jsx' to demonstrate react example:
+
+```
+
+import React, { Component } from 'react';
+
+export default class MyComponent extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="title"> This title coming from React Component !!!</div>
+    );
+  }
+}
+```
+
+14.) Add code to './src/styles/main.scss' file ( just for our example )
+
+```
+.title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding-top: 0;
+  letter-spacing: 0;
+  font-size: 24px;
+  font-weight: 400;
+  color: #126C77;
+  line-height: 64px;
+  box-flex: 1;
+  flex: 1;
+}
+```
+
+15.) open package.json file and following script tag :
+
+```
+
+"scripts": {
+  "start": "node server.js"
+},
+```
+
+Pheww !!! We are all set, now open a terminal and run below script
+
+```bash
+npm start
+```
+
+open your fav browser (NO IE 8,9, 10) and go to [http://localhost:9000](http://localhost:9000)
+
+*** Find an issue. Please log [here](https://github.com/abhijeetNmishra/webpack-step-by-step/issues).
+
+Thanks for reading this tutorial.
+
+ - [Abhijeet Mishra](https://github.com/abhijeetNmishra)

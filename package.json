@@ -4,7 +4,7 @@
   "description": "A guide to setup webpack module bundler for your project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
