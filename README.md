@@ -3,7 +3,7 @@ Simple step by step tutorial to setup webpack for dev and prod
 
 [webpack](http://webpack.github.io/) is an awesome module bundler which came to the party a bit late after [gulp](http://gulpjs.com/) and [grunt](http://gruntjs.com/). It took me very less time get comfortable with both grunt and gulp and i used them both in separate projects. Both are doing their job great but when it comes to bundling, they need help from different plugins and lack some bundling features.
 
-webpack was never easy for me to start with mainly because of its complex documentation ( and who reads entire documentation anyway ).
+webpack was never easy for me to start with mainly because of its complex documentation ( .... ).
 
 This repo is an attempt setup webpack with minimal possible option as step by step guide. After completing this, you will have webpack configured for development, production ( covering babel, react (JSX), eslint, css and few more...)
 
