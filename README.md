@@ -355,9 +355,9 @@ You can read about all possible options **[here](https://webpack.github.io/docs/
     main: [
       // configuration for babel6
       'babel-polyfill',
-      'webpack-hot-middleware/client?http://localhost.target.com:3000/__webpack_hmr',
+      'webpack-hot-middleware/client?http://localhost:9000/__webpack_hmr',
       // example for single entry point. Multiple Entry bundle example will be added later
-      './src/main.js'
+      './src/js/main.js'
     ]
   },
  }
@@ -372,9 +372,9 @@ var config = {
    main: [
      // configuration for babel6
      'babel-polyfill',
-     'webpack-hot-middleware/client?http://localhost.target.com:3000/__webpack_hmr',
+     'webpack-hot-middleware/client?http://localhost:9000/__webpack_hmr',
      // example for single entry point. Multiple Entry bundle example will be added later
-     './src/main.js'
+     './src/js/main.js'
    ]
  },
  output: {
@@ -396,9 +396,9 @@ var config = {
     main: [
       // configuration for babel6
       'babel-polyfill',
-      'webpack-hot-middleware/client?http://localhost.target.com:3000/__webpack_hmr',
+      'webpack-hot-middleware/client?http://localhost:9000/__webpack_hmr',
       // example for single entry point. Multiple Entry bundle example will be added later
-      './src/main.js'
+      './src/js/main.js'
     ]
   },
   output: {
@@ -499,9 +499,9 @@ var config = {
     main: [
       // configuration for babel6
       'babel-polyfill',
-      'webpack-hot-middleware/client?http://localhost.target.com:3000/__webpack_hmr',
+      'webpack-hot-middleware/client?http://localhost:9000/__webpack_hmr',
       // example for single entry point. Multiple Entry bundle example will be added later
-      './src/main.js'
+      './src/js/main.js'
     ]
   },
   output: {
@@ -518,7 +518,7 @@ var config = {
     loaders: [{
       test: /\.jsx?$/,
       include: path.join(__dirname, 'src'),
-      loader: "babel-loader?",
+      loader: "babel-loader",
       exclude: [nodeModulesPath]
     }, {
       test: /\.scss$/,
