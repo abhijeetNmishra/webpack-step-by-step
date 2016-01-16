@@ -7,22 +7,32 @@ var webpack = require('webpack');
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
 
+var app = express();
 if (__DEVELOPMENT__) {
   var config = require('./webpack.config');
+  var compiler = webpack(config);
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
   }));
-
   app.use(require('webpack-hot-middleware')(compiler));
 } else {
   var config = require('./webpack.prod.config');
+  var compiler = webpack(config);
 }
+
+
+
 
 const server = new http.Server(app);
 
-app.use((req, res) => {
-  res.send('Express up and running !!');
+const index = fs.readFileSync('./index.html', {
+  encoding: 'utf-8'
+});
+const str = index;
+
+app.get('*', function(req, res) {
+  res.status(200).send(str);
 });
 
 app.get('*', function(req, res) {

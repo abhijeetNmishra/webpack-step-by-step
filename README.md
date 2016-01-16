@@ -57,11 +57,11 @@ npm install babel-loader babel-core babel-preset-es2015 babel-preset-react babel
 
 Lets add [eslint](http://eslint.org/) configuration first to our project. At root directory add filename '.eslintrc' I will be extending [airbnb](https://github.com/airbnb) eslint configuration for this one, but it can be replaced with any customized config values:
 
-Install esling-config-airbnb and eslint modules :
+Install esling-config-airbnb, eslint and eslint-plugin-react modules :
 
 ```bash
 
-npm install eslint-config-airbnb eslint --save-dev
+npm install eslint-config-airbnb eslint eslint-plugin-react --save-dev
 ```
 
 Add following code in .eslintrc :
@@ -110,6 +110,21 @@ Add presets to add required babel plugins to transpile our code :
 {
   "presets": ["react", "es2015","stage-0"]
 }
+```
+
+7.1) Babel Runtime support
+
+Babel can’t support all of ES6 with compilation alone — it also requires some runtime support. In particular, the new ES6 built-ins like Set, Map and Promise must be polyfilled, and Babel’s generator implementation also uses a number of runtime helpers. Given your app doesn’t have to share a JavaScript environment with other apps, you’ll be ok to use babel-polyfill to handle this:
+
+``` bash
+npm install babel-polyfill --save
+```
+
+Babel also bakes a number of smaller helpers directly into your compiled code. This is OK for single files, but when bundling with Webpack, repeated code will result in a heavier file size. It is possible to replace these helpers with calls to the babel-runtime package by adding the transform-runtime plugin:
+
+```bash
+npm install babel-runtime --save
+npm install babel-plugin-transform-runtime --save-dev
 ```
 
 8.) [express](http://expressjs.com/) - Lets setup a express server at port 9000.
@@ -203,6 +218,7 @@ if (__DEVELOPMENT__) {
 
 if (__DEVELOPMENT__) {
   var config = require('./webpack.config');
+  var compiler = webpack(config);
   app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath
@@ -211,7 +227,28 @@ if (__DEVELOPMENT__) {
   app.use(require('webpack-hot-middleware')(compiler));
 } else{
   var config = require('./webpack.prod.config');
+  var compiler = webpack(config);
 }
+```
+
+===> add index.html file at root directory and enter below
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Webpack step by step</title>
+  <link href='/public/main.css' media='all' rel='stylesheet' type='text/css' />
+</head>
+
+<body>
+  <div id="main"></div>
+  <script src='/public/main.js'></script>
+</body>
+
+</html>
 ```
 
 ===> Create http server and listen on port 9000
@@ -220,8 +257,13 @@ if (__DEVELOPMENT__) {
 
 const server = new http.Server(app);
 
-app.use((req, res) => {
-  res.send('Express up and running !!');
+const index = fs.readFileSync('./index.html', {
+  encoding: 'utf-8'
+});
+const str = index;
+
+app.get('*', function(req, res) {
+  res.status(200).send(str);
 });
 
 app.get('*', function(req, res) {
@@ -247,3 +289,267 @@ server.listen('9000', (err) => {
 ```
 
 ===> add 'webpack.config.js' and 'webpack.prod.config.js' at root directory
+
+===> add "src" folder to root directory with below structure
+
+```
+
+|-- src
+      |-- js
+        |-- main.js (entry point of the application)
+        |-- MyComponent.jsx ( Sample React Component)
+      |-- styles
+        |-- main.scss ( sample style file to be loaded)
+|-- public
+```
+
+9.) [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin) - It moves every require("style.css") in entry chunks into a separate css output file. So your styles are no longer inlined into the javascript, but separate in a css bundle file (styles.css). If your total stylesheet volume is big, it will be faster because the stylesheet bundle is loaded in parallel to the javascript bundle.
+
+```bash
+
+npm install extract-text-webpack-plugin --save-dev
+```
+
+10.) add code in 'webpack.config.js'
+
+```
+require('babel-polyfill');
+var fs = require('fs');
+var webpack = require('webpack');
+var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var nodeModulesPath = path.resolve(__dirname, 'node_modules');
+var mainPath = path.resolve(__dirname, 'src', 'main.js');
+var publicPath = path.resolve(__dirname, 'public');
+
+var config = {
+
+}
+
+module.exports = config;
+```
+
+In the above code config is the section where we will add all webpack related configuration. Lets add each config option one at a time :
+
+ a.) devtools ->  'cheap-module-eval-source-map'. This option will only be needed in development environment which will help in debugging. Using this option will result in large bundle size. Make sure remove this prod config file.
+
+```
+ var config = {
+   devtool: 'cheap-module-eval-source-map',
+ }
+```
+
+You can read about all possible options [here](https://webpack.github.io/docs/configuration.html#devtool)
+
+ b.) entry : read [here](https://webpack.github.io/docs/configuration.html#entry) This one is most important part of webpack config.
+
+```
+
+ var config = {
+   devtool: 'cheap-module-eval-source-map',
+   entry: {
+    main: [
+      // configuration for babel6
+      'babel-polyfill',
+      'webpack-hot-middleware/client?http://localhost.target.com:3000/__webpack_hmr',
+      // example for single entry point. Multiple Entry bundle example will be added later
+      './src/main.js'
+    ]
+  },
+ }
+```
+
+  c.) output : read [here](https://webpack.github.io/docs/configuration.html#output) we will creating a single output bundle for this tutorial named 'main.js'
+
+```
+var config = {
+  devtool: 'cheap-module-eval-source-map',
+  entry: {
+   main: [
+     // configuration for babel6
+     'babel-polyfill',
+     'webpack-hot-middleware/client?http://localhost.target.com:3000/__webpack_hmr',
+     // example for single entry point. Multiple Entry bundle example will be added later
+     './src/main.js'
+   ]
+ },
+ output: {
+    filename: '[name].js',
+    path: path.join(__dirname, 'public'),
+    publicPath: '/public/'
+  },
+}
+```
+
+ d.) module - read [here](https://webpack.github.io/docs/configuration.html#module). module object will have loaders, preLoaders and postLoaders. loaders basically specifies, which webpack loader plugin you want to use for your task. for e.g if you want require a '.json' file as a module, you will be using 'json-loader'. To perform ES6 transpilation, we will be using 'babel-loader'. Similarly, we have 'css-loader', 'style-loader' etc. for various file types.
+
+ we will be preloader option to perform eslint before bundling our output. I can't think of any postLoaders scenario for my example yet.
+
+```
+ var config = {
+   devtool: 'cheap-module-eval-source-map',
+   entry: {
+    main: [
+      // configuration for babel6
+      'babel-polyfill',
+      'webpack-hot-middleware/client?http://localhost.target.com:3000/__webpack_hmr',
+      // example for single entry point. Multiple Entry bundle example will be added later
+      './src/main.js'
+    ]
+  },
+  output: {
+     filename: '[name].js',
+     path: path.join(__dirname, 'public'),
+     publicPath: '/public/'
+   },
+ },
+ module: {
+   preLoaders: [
+      {
+        test: /\.jsx$|\.js$/,
+        loader: 'eslint-loader',
+        include: __dirname + '/src/'
+      }
+    ],
+    loaders: [{
+      test: /\.jsx?$/,
+      include: path.join(__dirname, 'src'),
+      loader: "babel-loader",
+      exclude: [nodeModulesPath]
+    },
+    {
+      test: /\.scss$/,
+      include: path.join(__dirname, 'src'),
+      loader: ExtractTextPlugin.extract('style-loader', 'css!autoprefixer-loader?browsers=last 2 version!sass')
+    }]
+ }
+```
+
+ e.) plugins: Webpack comes up with large set of built-in and custom (published via npm) [plugins](https://webpack.github.io/docs/using-plugins.html)      Make sure to checkout [list of plugins](https://webpack.github.io/docs/list-of-plugins.html)
+
+ Lets add few plugins to our code :
+
+  ** [UglifyJsPlugin](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) - Minimize all JavaScript output of chunks. Loaders are switched into minimizing mode. You can pass an object containing [UglifyJS options](https://github.com/mishoo/UglifyJS2#usage)
+
+  ** [DefinePlugin](https://webpack.github.io/docs/list-of-plugins.html#defineplugin) - Define free variables. Useful for having development builds with debug logging or adding global constants.
+
+  ** [HotModuleReplacementPlugin](https://webpack.github.io/docs/list-of-plugins.html#hotmodulereplacementplugin) : Only use in development mode. Enables Hot Module Replacement. (This requires records data if not in dev-server mode, recordsPath) Generates Hot Update Chunks of each chunk in the records
+
+  ** [NoErrorsPlugin](https://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin): When there are errors while compiling this plugin skips the emitting phase (and recording phase), so there are no assets emitted that include errors. The emitted flag in the stats is false for all assets. If you are using the CLI, the webpack process will not exit with an error code by enabling this plugin. If you want webpack to “fail” when using the CLI, please check out the bail option.
+
+  ** [ProgressPlugin](https://webpack.github.io/docs/list-of-plugins.html#progressplugin): Hook into the compiler to extract progress information. The handler must have the signature function(percentage, message). It’s called with 0 <= percentage <= 1. percentage == 0 indicates the start. percentage == 1 indicates the end.
+
+```
+
+var config = {   
+  .........
+  // omitted above code for clarity    
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.DefinePlugin({
+      __DEVELOPMENT__: true
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new ProgressPlugin(function(percentage, msg) {
+      console.log((percentage * 100) + '%', msg);
+    }),
+    new ExtractTextPlugin('[name].css')
+  ],
+```
+
+ f.) In the end, we will adding 'resolve' option to tell webpack what are file extensions it need to support. This allows you to create React components with file extension '.jsx'
+
+ ```
+
+ var config = {
+   .........
+   // omitted above code for clarity
+   resolve: {
+    // Allow to omit extensions when requiring these files
+    extensions: ["", ".js", ".jsx"],
+  }
+ }
+ ```
+
+ complete code for webpack.config.js will look like :
+
+```
+require('babel-polyfill');
+var fs = require('fs');
+var webpack = require('webpack');
+var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var nodeModulesPath = path.resolve(__dirname, 'node_modules');
+var mainPath = path.resolve(__dirname, 'src', 'main.js');
+var publicPath = path.resolve(__dirname, 'public');
+
+var config = {
+  devtool: 'cheap-module-eval-source-map',
+  entry: {
+    main: [
+      // configuration for babel6
+      'babel-polyfill',
+      'webpack-hot-middleware/client?http://localhost.target.com:3000/__webpack_hmr',
+      // example for single entry point. Multiple Entry bundle example will be added later
+      './src/main.js'
+    ]
+  },
+  output: {
+    filename: '[name].js',
+    path: path.join(__dirname, 'public'),
+    publicPath: '/public/'
+  },
+  module: {
+    preLoaders: [{
+      test: /\.jsx$|\.js$/,
+      loader: 'eslint-loader',
+      include: __dirname + '/src/'
+    }],
+    loaders: [{
+      test: /\.jsx?$/,
+      include: path.join(__dirname, 'src'),
+      loader: "babel-loader?",
+      exclude: [nodeModulesPath]
+    }, {
+      test: /\.scss$/,
+      include: path.join(__dirname, 'src'),
+      loader: ExtractTextPlugin.extract('style-loader', 'css!autoprefixer-loader?browsers=last 2 version!sass')
+    }]
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new webpack.DefinePlugin({
+      __DEVELOPMENT__: true
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new ProgressPlugin(function(percentage, msg) {
+      console.log((percentage * 100) + '%', msg);
+    }),
+    new ExtractTextPlugin('[name].css')
+  ],
+  resolve: {
+    // Allow to omit extensions when requiring these files
+    extensions: ["", ".js", ".jsx"],
+  }
+}
+
+module.exports = config;
+
+```
+
+11.) React and ReactDOM - As we will be using React to demonstrate this example. Install React and ReactDOM
+
+```bash
+
+npm install react react-dom --save
+```
