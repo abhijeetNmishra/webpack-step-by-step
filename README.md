@@ -15,14 +15,14 @@ All webpack modules will be installed as dev dependencies as those are not requi
 
 open terminal and run below commands :
 
-1.) [webpack](https://www.npmjs.com/package/webpack)
+1. **[webpack](https://www.npmjs.com/package/webpack)**
 
 ```bash
 
  npm install webpack --save-dev
 ```
 
-2.) [webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware) It's a simple wrapper middleware for webpack. It serves the files emitted from webpack over a connect server. It has a few advantages over bundling it as files:
+2. **[webpack-dev-middleware](https://www.npmjs.com/package/webpack-dev-middleware)** It's a simple wrapper middleware for webpack. It serves the files emitted from webpack over a connect server. It has a few advantages over bundling it as files:
 
 No files are written to disk, it handle the files in memory If files changed in watch mode, the middleware no longer serves the old bundle, but delays requests until the compiling has finished. You don't have to wait before refreshing the page after a file modification.
 
@@ -30,34 +30,36 @@ No files are written to disk, it handle the files in memory If files changed in 
 npm install webpack-dev-middleware --save-dev
 ```
 
-3.) [webpack-hot-middleware](https://www.npmjs.com/package/webpack-hot-middleware) Webpack hot reloading using only webpack-dev-middleware. This allows you to add hot reloading into an existing server without webpack-dev-server.
+3. **[webpack-hot-middleware](https://www.npmjs.com/package/webpack-hot-middleware)** Webpack hot reloading using only webpack-dev-middleware. This allows you to add hot reloading into an existing server without webpack-dev-server.
 
 ```bash
 
 npm install webpack-hot-middleware --save-dev
 ```
 
-### [loaders](https://webpack.github.io/docs/loaders.html) -
+### [loaders](https://webpack.github.io/docs/loaders.html)
 Now we will be installing bunch of loaders to support multiple loading tasks.
 
 brief explanation : Loaders allow you to preprocess files as you require() or "load" them. Loaders are kind of like "tasks" are in other build tools, and provide a powerful way to handle frontend build steps. Loaders can transform files from a different language like, CoffeeScript to JavaScript, or inline images as data URLs. Loaders even allow you to do things like require() css files right in your JavaScript!
 
-4.) [babel-loader](https://www.npmjs.com/package/babel-loader) This package allows transpiling JavaScript files using Babel and webpack.
+4. **[babel-loader](https://www.npmjs.com/package/babel-loader)** This package allows transpiling JavaScript files using Babel and webpack.
 
 Here i am assuming, you will be writing your code using ES6 and have some idea on [babel](https://babeljs.io/) which is a compiler for writing next generation JavaScript. We will be doing our setup using babel6, which is its latest version and differs alot from its older versions.
 
-Since babel-loader depends number of modules from babel, we will be installing all of them together. Make sure to read about them ..    a.) [babel-core](https://www.npmjs.com/package/babel-core)    b.) [babel-preset-es2015](https://www.npmjs.com/package/babel-preset-es2015) - Babel preset for all es2015 plugins    c.) [babel-preset-react](https://www.npmjs.com/package/babel-preset-react) - Babel preset for all React plugins. This one is only needed if you are using React as part of your project. As part of this tutorial, we will be showing example for both a React Component and a normal JS file.
+Since babel-loader depends number of modules from babel, we will be installing all of them together. Make sure to read about them ..         * *[babel-core](https://www.npmjs.com/package/babel-core)*    
+* *[babel-preset-es2015](https://www.npmjs.com/package/babel-preset-es2015)* - Babel preset for all es2015 plugins    
+* *[babel-preset-react](https://www.npmjs.com/package/babel-preset-react)* - Babel preset for all React plugins. This one is only needed if you are using React as part of your project. As part of this tutorial, we will be showing example for both a React Component and a normal JS file.
 
 ```bash
 
 npm install babel-loader babel-core babel-preset-es2015 babel-preset-react babel-preset-stage-0 --save-dev
 ```
 
-5.) [eslint-loader](https://www.npmjs.com/package/eslint-loader) - This loader will help us to throw linting errors before bundling up your module.
+5. **[eslint-loader](https://www.npmjs.com/package/eslint-loader)** - This loader will help us to throw linting errors before bundling up your module.
 
-Lets add [eslint](http://eslint.org/) configuration first to our project. At root directory add filename '.eslintrc' I will be extending [airbnb](https://github.com/airbnb) eslint configuration for this one, but it can be replaced with any customized config values:
+Lets add *[eslint](http://eslint.org/)* configuration first to our project. At root directory add filename *'.eslintrc'* I will be extending *[airbnb](https://github.com/airbnb)* eslint configuration for this one, but it can be replaced with any customized config values:
 
-Install esling-config-airbnb, eslint and eslint-plugin-react modules :
+Install *esling-config-airbnb*, *eslint* and *eslint-plugin-react* modules :
 
 ```bash
 
@@ -79,14 +81,14 @@ Add following code in .eslintrc :
 }
 ```
 
-Note: Your might need to add some global variables or extra features like 'experimentalObjectRestSpread' based on your code base.
+Note: Your might need to add some global variables or extra features like *'experimentalObjectRestSpread'* based on your code base.
 
 ```bash
 
 npm install eslint-loader --save-dev
 ```
 
-6.) style loaders - We will be using couple of loader/plugin to support css module system. you can import your styles using code like :
+6. style loaders - We will be using couple of loader/plugin to support css module system. you can import your styles using code like :
 
 ```
 require('./styles/style.scss');
@@ -94,14 +96,14 @@ require('./styles/style.scss');
 
 and through webpack, we can configure to either included as part of Javascript bundle itself, or load separately as '.css files.' I prefer loading .css files as separate modules loaded over the wire rather than injecting them in JS bundles.
 
-We will be installing [autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader), [css-loader](https://www.npmjs.com/package/css-loader), [sass-loader](https://www.npmjs.com/package/sass-loader), [style-loader](https://www.npmjs.com/package/style-loader)
+We will be installing *[autoprefixer-loader](https://www.npmjs.com/package/autoprefixer-loader)*, *[css-loader](https://www.npmjs.com/package/css-loader)*, *[sass-loader](https://www.npmjs.com/package/sass-loader)*, *[style-loader](https://www.npmjs.com/package/style-loader)*
 
 ```bash
 
 npm install css-loader sass-loader node-sass style-loader autoprefixer-loader --save-dev
 ```
 
-7.) Add babel configuration - Add .babelrc file at root level
+7. Add babel configuration - Add .babelrc file at root level
 
 Add presets to add required babel plugins to transpile our code :
 
@@ -112,7 +114,7 @@ Add presets to add required babel plugins to transpile our code :
 }
 ```
 
-7.1) Babel Runtime support
+8. **Babel Runtime support**
 
 Babel can't support all of ES6 with compilation alone -- it also requires some runtime support. In particular, the new ES6 built-ins like Set, Map and Promise must be polyfilled, and Babel's generator implementation also uses a number of runtime helpers. Given your app doesn't have to share a JavaScript environment with other apps, you'll be ok to use babel-polyfill to handle this:
 
@@ -127,7 +129,7 @@ npm install babel-runtime --save
 npm install babel-plugin-transform-runtime --save-dev
 ```
 
-8.) [express](http://expressjs.com/) - Lets setup a express server at port 9000.
+9. **[express](http://expressjs.com/)** - Lets setup a express server at port *9000*.
 
 Note: Below mentioned steps are not required for webpack setup but gives some idea about a clean project setup.
 
@@ -288,11 +290,11 @@ server.listen('9000', (err) => {
 });
 ```
 
-complete code for server.js is [here](https://github.com/abhijeetNmishra/webpack-step-by-step/blob/master/server.js)
+complete code for server.js is *[here](https://github.com/abhijeetNmishra/webpack-step-by-step/blob/master/server.js)*
 
-===> add 'webpack.config.js' and 'webpack.prod.config.js' at root directory
+===> add *'webpack.config.js'* and *'webpack.prod.config.js'* at root directory
 
-===> add "src" folder to root directory with below structure
+===> add *'src'* folder to root directory with below structure
 
 ```
 
@@ -305,14 +307,14 @@ complete code for server.js is [here](https://github.com/abhijeetNmishra/webpack
 |-- public
 ```
 
-9.) [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin) - It moves every require("style.css") in entry chunks into a separate css output file. So your styles are no longer inlined into the javascript, but separate in a css bundle file (styles.css). If your total stylesheet volume is big, it will be faster because the stylesheet bundle is loaded in parallel to the javascript bundle.
+10. **[extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin)** - It moves every require("style.css") in entry chunks into a separate css output file. So your styles are no longer inlined into the javascript, but separate in a css bundle file (styles.css). If your total stylesheet volume is big, it will be faster because the stylesheet bundle is loaded in parallel to the javascript bundle.
 
 ```bash
 
 npm install extract-text-webpack-plugin --save-dev
 ```
 
-10.) add code in 'webpack.config.js'
+11. add code in *'webpack.config.js'*
 
 ```
 require('babel-polyfill');
@@ -333,7 +335,7 @@ module.exports = config;
 
 In the above code config is the section where we will add all webpack related configuration. Lets add each config option one at a time :
 
- a.) devtools ->  'cheap-module-eval-source-map'. This option will only be needed in development environment which will help in debugging. Using this option will result in large bundle size. Make sure remove this prod config file.
+ * *devtools* ->  'cheap-module-eval-source-map'. This option will only be needed in development environment which will help in debugging. Using this option will result in large bundle size. Make sure remove this prod config file.
 
 ```
  var config = {
@@ -341,9 +343,9 @@ In the above code config is the section where we will add all webpack related co
  }
 ```
 
-You can read about all possible options [here](https://webpack.github.io/docs/configuration.html#devtool)
+You can read about all possible options **[here](https://webpack.github.io/docs/configuration.html#devtool)**
 
- b.) entry : read [here](https://webpack.github.io/docs/configuration.html#entry) This one is most important part of webpack config.
+ * *entry* : read **[here](https://webpack.github.io/docs/configuration.html#entry)** This one is most important part of webpack config.
 
 ```
 
@@ -361,7 +363,7 @@ You can read about all possible options [here](https://webpack.github.io/docs/co
  }
 ```
 
-  c.) output : read [here](https://webpack.github.io/docs/configuration.html#output) we will creating a single output bundle for this tutorial named 'main.js'
+  * *output* : read **[here](https://webpack.github.io/docs/configuration.html#output)** we will creating a single output bundle for this tutorial named 'main.js'
 
 ```
 var config = {
@@ -383,7 +385,7 @@ var config = {
 }
 ```
 
- d.) module - read [here](https://webpack.github.io/docs/configuration.html#module). module object will have loaders, preLoaders and postLoaders. loaders basically specifies, which webpack loader plugin you want to use for your task. for e.g if you want require a '.json' file as a module, you will be using 'json-loader'. To perform ES6 transpilation, we will be using 'babel-loader'. Similarly, we have 'css-loader', 'style-loader' etc. for various file types.
+ * *module* - read **[here](https://webpack.github.io/docs/configuration.html#module)**. module object will have loaders, preLoaders and postLoaders. loaders basically specifies, which webpack loader plugin you want to use for your task. for e.g if you want require a '.json' file as a module, you will be using 'json-loader'. To perform ES6 transpilation, we will be using *'babel-loader'*. Similarly, we have *'css-loader'*, *'style-loader'* etc. for various file types.
 
  we will be preloader option to perform eslint before bundling our output. I can't think of any postLoaders scenario for my example yet.
 
@@ -427,19 +429,20 @@ var config = {
  }
 ```
 
- e.) plugins: Webpack comes up with large set of built-in and custom (published via npm) [plugins](https://webpack.github.io/docs/using-plugins.html)      Make sure to checkout [list of plugins](https://webpack.github.io/docs/list-of-plugins.html)
+ * *plugins*: Webpack comes up with large set of built-in and custom (published via npm) [plugins](https://webpack.github.io/docs/using-plugins.html)      
+ Make sure to checkout *[list of plugins](https://webpack.github.io/docs/list-of-plugins.html)*
 
  Lets add few plugins to our code :
 
-  ** [UglifyJsPlugin](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin) - Minimize all JavaScript output of chunks. Loaders are switched into minimizing mode. You can pass an object containing [UglifyJS options](https://github.com/mishoo/UglifyJS2#usage)
+  * *[UglifyJsPlugin](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin)* - Minimize all JavaScript output of chunks. Loaders are switched into minimizing mode. You can pass an object containing [UglifyJS options](https://github.com/mishoo/UglifyJS2#usage)
 
-  ** [DefinePlugin](https://webpack.github.io/docs/list-of-plugins.html#defineplugin) - Define free variables. Useful for having development builds with debug logging or adding global constants.
+  * *[DefinePlugin](https://webpack.github.io/docs/list-of-plugins.html#defineplugin)* - Define free variables. Useful for having development builds with debug logging or adding global constants.
 
-  ** [HotModuleReplacementPlugin](https://webpack.github.io/docs/list-of-plugins.html#hotmodulereplacementplugin) : Only use in development mode. Enables Hot Module Replacement. (This requires records data if not in dev-server mode, recordsPath) Generates Hot Update Chunks of each chunk in the records
+  * *[HotModuleReplacementPlugin](https://webpack.github.io/docs/list-of-plugins.html#hotmodulereplacementplugin)* : Only use in development mode. Enables Hot Module Replacement. (This requires records data if not in dev-server mode, recordsPath) Generates Hot Update Chunks of each chunk in the records
 
-  ** [NoErrorsPlugin](https://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin): When there are errors while compiling this plugin skips the emitting phase (and recording phase), so there are no assets emitted that include errors. The emitted flag in the stats is false for all assets. If you are using the CLI, the webpack process will not exit with an error code by enabling this plugin. If you want webpack to "fail" when using the CLI, please check out the bail option.
+  * *[NoErrorsPlugin](https://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin)*: When there are errors while compiling this plugin skips the emitting phase (and recording phase), so there are no assets emitted that include errors. The emitted flag in the stats is false for all assets. If you are using the CLI, the webpack process will not exit with an error code by enabling this plugin. If you want webpack to "fail" when using the CLI, please check out the bail option.
 
-  ** [ProgressPlugin](https://webpack.github.io/docs/list-of-plugins.html#progressplugin): Hook into the compiler to extract progress information. The handler must have the signature function(percentage, message). It's called with 0 <= percentage <= 1. percentage == 0 indicates the start. percentage == 1 indicates the end.
+  * *[ProgressPlugin](https://webpack.github.io/docs/list-of-plugins.html#progressplugin)*: Hook into the compiler to extract progress information. The handler must have the signature function(percentage, message). It's called with 0 <= percentage <= 1. percentage == 0 indicates the start. percentage == 1 indicates the end.
 
 ```
 
@@ -464,7 +467,7 @@ var config = {
   ],
 ```
 
- f.) In the end, we will adding 'resolve' option to tell webpack what are file extensions it need to support. This allows you to create React components with file extension '.jsx'
+ * In the end, we will adding 'resolve' option to tell webpack what are file extensions it need to support. This allows you to create React components with file extension '.jsx'
 
 ```
 
@@ -548,14 +551,14 @@ var config = {
 module.exports = config;
 ```
 
-11.) React and ReactDOM - As we will be using React to demonstrate this example. Install React and ReactDOM
+12. *React* and *ReactDOM* - As we will be using React to demonstrate this example. Install React and ReactDOM
 
 ```bash
 
 npm install react react-dom --save
 ```
 
-12.) Add code to './src/js/main.js' to demonstrate example :
+13. Add code to *'./src/js/main.js'* to demonstrate example :
 
 ```
 import React from 'react';
@@ -570,7 +573,7 @@ ReactDOM.render(
 );
 ```
 
-13.) Add code to './src/js/MyComponent.jsx' to demonstrate react example:
+14. Add code to *'./src/js/MyComponent.jsx'* to demonstrate react example:
 
 ```
 
@@ -589,7 +592,7 @@ export default class MyComponent extends Component {
 }
 ```
 
-14.) Add code to './src/styles/main.scss' file ( just for our example )
+15. Add code to *'./src/styles/main.scss'* file ( just for our example )
 
 ```
 .title {
@@ -608,7 +611,7 @@ export default class MyComponent extends Component {
 }
 ```
 
-15.) open package.json file and following script tag :
+16. open *package.json* file and following script tag :
 
 ```
 
@@ -623,9 +626,9 @@ Pheww !!! We are all set, now open a terminal and run below script
 npm start
 ```
 
-open your fav browser (NO IE 8,9, 10) and go to [http://localhost:9000](http://localhost:9000)
+open your fav browser (NO IE 8,9, 10) and go to *[http://localhost:9000](http://localhost:9000)*
 
-*** Find an issue. Please log [here](https://github.com/abhijeetNmishra/webpack-step-by-step/issues).
+*** Find an issue. Please log *[here](https://github.com/abhijeetNmishra/webpack-step-by-step/issues)*.
 
 Thanks for reading this tutorial.
 
