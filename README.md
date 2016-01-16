@@ -42,7 +42,7 @@ Now we will be installing bunch of loaders to support multiple loading tasks.
 
 brief explanation : Loaders allow you to preprocess files as you require() or "load" them. Loaders are kind of like "tasks" are in other build tools, and provide a powerful way to handle frontend build steps. Loaders can transform files from a different language like, CoffeeScript to JavaScript, or inline images as data URLs. Loaders even allow you to do things like require() css files right in your JavaScript!
 
-3.) [babel-loader](https://www.npmjs.com/package/babel-loader) This package allows transpiling JavaScript files using Babel and webpack.
+4.) [babel-loader](https://www.npmjs.com/package/babel-loader) This package allows transpiling JavaScript files using Babel and webpack.
 
 Here i am assuming, you will be writing your code using ES6 and have some idea on [babel](https://babeljs.io/) which is a compiler for writing next generation JavaScript. We will be doing our setup using babel6, which is its latest version and differs alot from its older versions.
 
@@ -50,10 +50,10 @@ Since babel-loader depends number of modules from babel, we will be installing a
 
 ```bash
 
-npm install babel-loader babel-core babel-preset-es2015 babel-preset-react --save-dev
+npm install babel-loader babel-core babel-preset-es2015 babel-preset-react babel-preset-stage-0 --save-dev
 ```
 
-4.) [eslint-loader](https://www.npmjs.com/package/eslint-loader) - This loader will help us to throw linting errors before bundling up your module.
+5.) [eslint-loader](https://www.npmjs.com/package/eslint-loader) - This loader will help us to throw linting errors before bundling up your module.
 
 Lets add [eslint](http://eslint.org/) configuration first to our project. At root directory add filename '.eslintrc' I will be extending [airbnb](https://github.com/airbnb) eslint configuration for this one, but it can be replaced with any customized config values:
 
@@ -86,7 +86,7 @@ Note: Your might need to add some global variables or extra features like 'exper
 npm install eslint-loader --save-dev
 ```
 
-5.) style loaders - We will be using couple of loader/plugin to support css module system. you can import your styles using code like :
+6.) style loaders - We will be using couple of loader/plugin to support css module system. you can import your styles using code like :
 
 ```
 require('./styles/style.scss');
@@ -100,3 +100,150 @@ We will be installing [autoprefixer-loader](https://www.npmjs.com/package/autopr
 
 npm install css-loader sass-loader node-sass style-loader autoprefixer-loader --save-dev
 ```
+
+7.) Add babel configuration - Add .babelrc file at root level
+
+Add presets to add required babel plugins to transpile our code :
+
+```
+
+{
+  "presets": ["react", "es2015","stage-0"]
+}
+```
+
+8.) [express](http://expressjs.com/) - Lets setup a express server at port 9000.
+
+Note: Below mentioned steps are not required for webpack setup but gives some idea about a clean project setup.
+
+```bash
+
+npm install express --save
+```
+
+Add file 'server.js' at root directory. we will also be adding a babel file related to server which will read configuration from .babelrc and enable runtime transpilation to use ES6/7 in node.
+
+Add server.babel.js at root directory and add below code ( which i believe is self-explanatory):
+
+```
+
+//  enable runtime transpilation to use ES6/7 in node
+
+var fs = require('fs');
+
+var babelrc = fs.readFileSync('./.babelrc');
+var config;
+
+try {
+  config = JSON.parse(babelrc);
+} catch (err) {
+  console.error('==>     ERROR: Error parsing your .babelrc.');
+  console.error(err);
+}
+
+require('babel-core/register')(config);
+```
+
+lets add code to our server.js file :
+
+==> require modules
+
+```
+
+require('./server.babel');
+var path = require('path');
+var fs = require('fs');
+var express = require('express');
+var webpack = require('webpack');
+```
+
+===> add a check if its development or production environment as a global constant
+
+```
+
+global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
+```
+
+===> Load webpack config file based on environment. We will be adding webpack config files in next step
+
+```
+
+if (__DEVELOPMENT__) {
+  var config = require('./webpack.config');
+} else{
+  var config = require('./webpack.prod.config');
+}
+```
+
+===> Create Express server instance and configure with webpack
+
+```
+
+var app = express();
+var compiler = webpack(config);
+```
+
+===> Hook our Express server with 'webpack-hot-middleware' and 'webpack-hot-middleware' only for development
+
+```
+
+if (__DEVELOPMENT__) {
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }));
+
+  app.use(require('webpack-hot-middleware')(compiler));
+}
+```
+
+===> Move this code to upper 'if' block
+
+```
+
+if (__DEVELOPMENT__) {
+  var config = require('./webpack.config');
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }));
+
+  app.use(require('webpack-hot-middleware')(compiler));
+} else{
+  var config = require('./webpack.prod.config');
+}
+```
+
+===> Create http server and listen on port 9000
+
+```
+
+const server = new http.Server(app);
+
+app.use((req, res) => {
+  res.send('Express up and running !!');
+});
+
+app.get('*', function(req, res) {
+  res.status(404).send('Server.js > 404 - Page Not Found');
+});
+
+app.use((err, req, res, next) => {
+  console.error("Error on request %s %s", req.method, req.url);
+  console.error(err.stack);
+  res.status(500).send("Server error");
+});
+
+process.on('uncaughtException', evt => {
+  console.log('uncaughtException ', evt);
+});
+
+server.listen('9000', (err) => {
+  if (err) {
+    console.error(err);
+  }
+  console.info('==> 💻  Open http://%s:%s in a browser to view the app.', 'localhost', '9000');
+});
+```
+
+===> add 'webpack.config.js' and 'webpack.prod.config.js' at root directory
