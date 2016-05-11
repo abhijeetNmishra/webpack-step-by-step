@@ -4,6 +4,8 @@ var http = require('http');
 var fs = require('fs');
 var express = require('express');
 var webpack = require('webpack');
+var http = require('http');
+var app = express();
 
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
 
