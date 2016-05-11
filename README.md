@@ -489,6 +489,7 @@ var fs = require('fs');
 var webpack = require('webpack');
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ProgressPlugin = require('webpack/lib/ProgressPlugin');
 var nodeModulesPath = path.resolve(__dirname, 'node_modules');
 var mainPath = path.resolve(__dirname, 'src', 'main.js');
 var publicPath = path.resolve(__dirname, 'public');
