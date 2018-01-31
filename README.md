@@ -345,7 +345,7 @@ In the above code config is the section where we will add all webpack related co
 
 You can read about all possible options **[here](https://webpack.github.io/docs/configuration.html#devtool)**
 
- * *entry* : read **[here](https://webpack.github.io/docs/configuration.html#entry)** This one is most important part of webpack config.
+ * *entry* : read **[here](https://webpack.js.org/concepts/#entry)** This one is most important part of webpack config.
 
 ```javascript
 
@@ -385,7 +385,7 @@ var config = {
 }
 ```
 
- * *module* - read **[here](https://webpack.github.io/docs/configuration.html#module)**. module object will have loaders, preLoaders and postLoaders. loaders basically specifies, which webpack loader plugin you want to use for your task. for e.g if you want require a '.json' file as a module, you will be using 'json-loader'. To perform ES6 transpilation, we will be using *'babel-loader'*. Similarly, we have *'css-loader'*, *'style-loader'* etc. for various file types.
+ * *module* - read **[here](https://webpack.js.org/concepts/modules/)**. module object will have loaders, preLoaders and postLoaders. loaders basically specifies, which webpack loader plugin you want to use for your task. for e.g if you want require a '.json' file as a module, you will be using 'json-loader'. To perform ES6 transpilation, we will be using *'babel-loader'*. Similarly, we have *'css-loader'*, *'style-loader'* etc. for various file types.
 
  we will be preloader option to perform eslint before bundling our output. I can't think of any postLoaders scenario for my example yet.
 
@@ -429,16 +429,16 @@ var config = {
  }
 ```
 
- * *plugins*: Webpack comes up with large set of built-in and custom (published via npm) [plugins](https://webpack.github.io/docs/using-plugins.html)      
- Make sure to checkout *[list of plugins](https://webpack.github.io/docs/list-of-plugins.html)*
+ * *plugins*: Webpack comes up with large set of built-in and custom (published via npm) [plugins](https://webpack.js.org/concepts/plugins/#usage)      
+ Make sure to checkout *[list of plugins](https://webpack.js.org/plugins/)*
 
  Lets add few plugins to our code :
 
-  * *[UglifyJsPlugin](https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin)* - Minimize all JavaScript output of chunks. Loaders are switched into minimizing mode. You can pass an object containing [UglifyJS options](https://github.com/mishoo/UglifyJS2#usage)
+  * *[UglifyJsPlugin](https://webpack.js.org/plugins/uglifyjs-webpack-plugin/)* - Minimize all JavaScript output of chunks. Loaders are switched into minimizing mode. You can pass an object containing [UglifyJS options](https://github.com/mishoo/UglifyJS2#usage)
 
   * *[DefinePlugin](https://webpack.github.io/docs/list-of-plugins.html#defineplugin)* - Define free variables. Useful for having development builds with debug logging or adding global constants.
 
-  * *[HotModuleReplacementPlugin](https://webpack.github.io/docs/list-of-plugins.html#hotmodulereplacementplugin)* : Only use in development mode. Enables Hot Module Replacement. (This requires records data if not in dev-server mode, recordsPath) Generates Hot Update Chunks of each chunk in the records
+  * *[HotModuleReplacementPlugin](https://webpack.js.org/plugins/hot-module-replacement-plugin/)* : Only use in development mode. Enables Hot Module Replacement. (This requires records data if not in dev-server mode, recordsPath) Generates Hot Update Chunks of each chunk in the records
 
   * *[NoErrorsPlugin](https://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin)*: When there are errors while compiling this plugin skips the emitting phase (and recording phase), so there are no assets emitted that include errors. The emitted flag in the stats is false for all assets. If you are using the CLI, the webpack process will not exit with an error code by enabling this plugin. If you want webpack to "fail" when using the CLI, please check out the bail option.
 
